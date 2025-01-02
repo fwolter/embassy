@@ -1,0 +1,6 @@
+{
+    "editor.formatOnSave": true,
+    "rust-analyzer.cargo.features": [
+        "stm32f072cb",
+    ],
+}

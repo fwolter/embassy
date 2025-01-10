@@ -48,9 +48,7 @@ impl<'d, STATE: NorFlash, RST: Reset> Handler for Control<'d, STATE, RST> {
                 timeout.as_millis()
             );
             if delta < timeout {
-                self.firmware_state
-                    .mark_dfu()
-                    .expect("Failed to mark DFU mode in bootloader");
+                unwrap!(self.firmware_state.mark_dfu(), "Failed to mark DFU mode in bootloader");
                 RST::sys_reset()
             }
         }

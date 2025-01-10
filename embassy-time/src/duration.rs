@@ -129,7 +129,7 @@ impl Add for Duration {
     type Output = Duration;
 
     fn add(self, rhs: Duration) -> Duration {
-        self.checked_add(rhs).expect("overflow when adding durations")
+        unwrap!(self.checked_add(rhs), "overflow when adding durations")
     }
 }
 
@@ -143,7 +143,7 @@ impl Sub for Duration {
     type Output = Duration;
 
     fn sub(self, rhs: Duration) -> Duration {
-        self.checked_sub(rhs).expect("overflow when subtracting durations")
+        unwrap!(self.checked_sub(rhs), "overflow when subtracting durations")
     }
 }
 
@@ -157,8 +157,7 @@ impl Mul<u32> for Duration {
     type Output = Duration;
 
     fn mul(self, rhs: u32) -> Duration {
-        self.checked_mul(rhs)
-            .expect("overflow when multiplying duration by scalar")
+        unwrap!(self.checked_mul(rhs), "overflow when multiplying duration by scalar")
     }
 }
 
@@ -180,8 +179,10 @@ impl Div<u32> for Duration {
     type Output = Duration;
 
     fn div(self, rhs: u32) -> Duration {
-        self.checked_div(rhs)
-            .expect("divide by zero error when dividing duration by scalar")
+        unwrap!(
+            self.checked_div(rhs),
+            "divide by zero error when dividing duration by scalar"
+        )
     }
 }
 

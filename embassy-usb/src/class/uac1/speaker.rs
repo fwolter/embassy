@@ -516,7 +516,7 @@ impl<'d> Control<'d> {
         channel_index: u8,
         data: &[u8],
     ) -> OutResponse {
-        let volume = i16::from_ne_bytes(data[..2].try_into().expect("Failed to read volume."));
+        let volume = i16::from_ne_bytes(unwrap!(data[..2].try_into(), "Failed to read volume."));
 
         match channel_index as usize {
             ..=MAX_AUDIO_CHANNEL_INDEX => {

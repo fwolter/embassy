@@ -466,11 +466,12 @@ impl<'a, 'd, D: Driver<'d>> InterfaceAltBuilder<'a, 'd, D> {
     ///
     /// Used for granular control over the order of endpoint and descriptor creation.
     pub fn alloc_endpoint_in(&mut self, ep_type: EndpointType, max_packet_size: u16, interval_ms: u8) -> D::EndpointIn {
-        let ep = self
-            .builder
-            .driver
-            .alloc_endpoint_in(ep_type, max_packet_size, interval_ms)
-            .expect("alloc_endpoint_in failed");
+        let ep = unwrap!(
+            self.builder
+                .driver
+                .alloc_endpoint_in(ep_type, max_packet_size, interval_ms),
+            "alloc_endpoint_in failed"
+        );
 
         ep
     }
@@ -499,11 +500,12 @@ impl<'a, 'd, D: Driver<'d>> InterfaceAltBuilder<'a, 'd, D> {
         max_packet_size: u16,
         interval_ms: u8,
     ) -> D::EndpointOut {
-        let ep = self
-            .builder
-            .driver
-            .alloc_endpoint_out(ep_type, max_packet_size, interval_ms)
-            .expect("alloc_endpoint_out failed");
+        let ep = unwrap!(
+            self.builder
+                .driver
+                .alloc_endpoint_out(ep_type, max_packet_size, interval_ms),
+            "alloc_endpoint_out failed"
+        );
 
         ep
     }

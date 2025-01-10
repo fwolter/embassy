@@ -120,8 +120,7 @@ impl Add<Duration> for Instant {
     type Output = Instant;
 
     fn add(self, other: Duration) -> Instant {
-        self.checked_add(other)
-            .expect("overflow when adding duration to instant")
+        unwrap!(self.checked_add(other), "overflow when adding duration to instant")
     }
 }
 
@@ -135,8 +134,10 @@ impl Sub<Duration> for Instant {
     type Output = Instant;
 
     fn sub(self, other: Duration) -> Instant {
-        self.checked_sub(other)
-            .expect("overflow when subtracting duration from instant")
+        unwrap!(
+            self.checked_sub(other),
+            "overflow when subtracting duration from instant"
+        )
     }
 }
 

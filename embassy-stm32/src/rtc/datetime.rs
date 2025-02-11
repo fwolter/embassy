@@ -39,6 +39,8 @@ pub struct DateTime {
     minute: u8,
     /// 0..59
     second: u8,
+    /// 0..255
+    subsecond: u16,
 }
 
 impl DateTime {
@@ -77,6 +79,11 @@ impl DateTime {
         self.second
     }
 
+    /// Get the subsecond (0..=65535)
+    pub const fn subsecond(&self) -> u16 {
+        self.subsecond
+    }
+
     /// Create a new DateTime with the given information.
     pub fn from(
         year: u16,
@@ -86,6 +93,7 @@ impl DateTime {
         hour: u8,
         minute: u8,
         second: u8,
+        subsecond: u16,
     ) -> Result<Self, Error> {
         if year > 4095 {
             Err(Error::InvalidYear)
@@ -108,6 +116,7 @@ impl DateTime {
                 hour,
                 minute,
                 second,
+                subsecond,
             })
         }
     }

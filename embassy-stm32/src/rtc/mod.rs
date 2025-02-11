@@ -59,7 +59,7 @@ impl RtcTimeProvider {
     ///
     /// Will return an `RtcError::InvalidDateTime` if the stored value in the system is not a valid [`DayOfWeek`].
     pub fn now(&self) -> Result<DateTime, RtcError> {
-        self.read(|dr, tr, _| {
+        self.read(|dr, tr, ss| {
             let second = bcd2_to_byte((tr.st(), tr.su()));
             let minute = bcd2_to_byte((tr.mnt(), tr.mnu()));
             let hour = bcd2_to_byte((tr.ht(), tr.hu()));
@@ -69,7 +69,7 @@ impl RtcTimeProvider {
             let month = bcd2_to_byte((dr.mt() as u8, dr.mu()));
             let year = bcd2_to_byte((dr.yt(), dr.yu())) as u16 + 2000_u16;
 
-            DateTime::from(year, month, day, weekday, hour, minute, second).map_err(RtcError::InvalidDateTime)
+            DateTime::from(year, month, day, weekday, hour, minute, second, ss).map_err(RtcError::InvalidDateTime)
         })
     }
 
